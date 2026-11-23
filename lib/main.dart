@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'form_page.dart';
 import 'prato.dart';
 
 void main() {
@@ -37,6 +38,20 @@ class _HomePageState extends State<HomePage> {
     ),
   ];
 
+  // abre a tela de cadastro e adiciona o prato quando voltar
+  Future<void> abrirForm() async {
+    final p = await Navigator.push<Prato>(
+      context,
+      MaterialPageRoute(builder: (context) => const FormPage()),
+    );
+
+    if (p != null) {
+      setState(() {
+        lista.add(p);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,6 +75,10 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: abrirForm,
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
