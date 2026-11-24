@@ -1,6 +1,6 @@
 # Restaurante App
 
-Aplicativo feito em Flutter para cadastro de pratos de um restaurante, desenvolvido para a prova P3 da disciplina de Tecnologia de Construção de Software I na PUC Goiás.
+Aplicativo feito em Flutter para cadastro de pratos de um restaurante.
 
 ## O que o app faz
 
