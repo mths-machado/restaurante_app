@@ -52,26 +52,87 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  // abre a mesma tela ja preenchida e troca na mesma posicao
+  Future<void> editar(int i) async {
+    final p = await Navigator.push<Prato>(
+      context,
+      MaterialPageRoute(builder: (context) => FormPage(prato: lista[i])),
+    );
+
+    if (p != null) {
+      setState(() {
+        lista[i] = p;
+      });
+    }
+  }
+
+  // mostra confirmacao antes de apagar o prato da lista
+  void excluir(int i) {
+    final p = lista[i];
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Excluir prato'),
+        content: Text('Deseja excluir "${p.prato}"?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              setState(() {
+                lista.removeAt(i);
+              });
+            },
+            child: const Text('Excluir'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cardápio'),
+        title: const Text('Restaurante'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       // se nao tiver nenhum prato mostra a mensagem
       body: lista.isEmpty
           ? const Center(
-              child: Text('Nenhum prato cadastrado'),
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.restaurant, size: 48, color: Colors.grey),
+                    SizedBox(height: 8),
+                    Text('Nenhum prato cadastrado'),
+                  ],
+                ),
+              ),
             )
           : ListView.builder(
+              padding: const EdgeInsets.all(12),
               itemCount: lista.length,
               itemBuilder: (context, i) {
                 // pega o prato da lista
                 Prato p = lista[i];
-                return ListTile(
-                  title: Text(p.prato),
-                  subtitle: Text('${p.categoria} - ${p.ingrediente}'),
+                return Card(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: ListTile(
+                    leading: const Icon(Icons.restaurant_menu),
+                    title: Text(p.prato),
+                    subtitle: Text('${p.categoria} - ${p.ingrediente}'),
+                    onTap: () => editar(i),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete, color: Colors.red),
+                      onPressed: () => excluir(i),
+                    ),
+                  ),
                 );
               },
             ),
