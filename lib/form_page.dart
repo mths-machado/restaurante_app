@@ -53,11 +53,27 @@ class _FormPageState extends State<FormPage> {
   @override
   Widget build(BuildContext context) {
     final editando = widget.prato != null;
+    final cores = Theme.of(context).colorScheme;
+    final bordaCampo = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+    );
 
     return Scaffold(
+      backgroundColor: const Color(0xFFFFF8F5),
       appBar: AppBar(
-        title: Text(editando ? 'Editar Prato' : 'Novo Prato'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        centerTitle: true,
+        elevation: 2,
+        title: Text(
+          editando ? 'Editar Prato' : 'Novo Prato',
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: cores.primary,
+        foregroundColor: cores.onPrimary,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(20),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -65,57 +81,135 @@ class _FormPageState extends State<FormPage> {
           key: _formKey,
           child: Column(
             children: [
-              TextFormField(
-                controller: ctrlPrato,
-                decoration: const InputDecoration(
-                  labelText: 'Prato',
-                  prefixIcon: Icon(Icons.restaurant_menu),
-                  border: OutlineInputBorder(),
+              const SizedBox(height: 8),
+              // icone no topo pra deixar a tela mais bonita
+              Container(
+                padding: const EdgeInsets.all(18),
+                decoration: BoxDecoration(
+                  color: cores.primaryContainer,
+                  shape: BoxShape.circle,
                 ),
-                validator: (v) {
-                  if (v == null || v.trim().isEmpty) {
-                    return 'Preencha este campo';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                controller: ctrlCat,
-                decoration: const InputDecoration(
-                  labelText: 'Categoria',
-                  prefixIcon: Icon(Icons.category),
-                  border: OutlineInputBorder(),
+                child: Icon(
+                  editando ? Icons.edit_note : Icons.restaurant_menu,
+                  size: 42,
+                  color: cores.primary,
                 ),
-                validator: (v) {
-                  if (v == null || v.trim().isEmpty) {
-                    return 'Preencha este campo';
-                  }
-                  return null;
-                },
               ),
-              const SizedBox(height: 12),
-              TextFormField(
-                controller: ctrlIng,
-                decoration: const InputDecoration(
-                  labelText: 'Ingrediente principal',
-                  prefixIcon: Icon(Icons.kitchen),
-                  border: OutlineInputBorder(),
+              const SizedBox(height: 10),
+              Text(
+                editando
+                    ? 'Altere as informações do prato'
+                    : 'Preencha os dados do novo prato',
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.grey[700],
                 ),
-                validator: (v) {
-                  if (v == null || v.trim().isEmpty) {
-                    return 'Preencha este campo';
-                  }
-                  return null;
-                },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 18),
+              // card branco envolvendo os campos do formulario
+              Card(
+                color: Colors.white,
+                elevation: 2,
+                shadowColor: Colors.black26,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(18),
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: ctrlPrato,
+                        textCapitalization: TextCapitalization.sentences,
+                        decoration: InputDecoration(
+                          labelText: 'Prato',
+                          hintText: 'Ex: Risoto de cogumelos',
+                          filled: true,
+                          fillColor: const Color(0xFFFFFAF7),
+                          prefixIcon: Icon(
+                            Icons.restaurant_menu,
+                            color: cores.primary,
+                          ),
+                          border: bordaCampo,
+                        ),
+                        validator: (v) {
+                          if (v == null || v.trim().isEmpty) {
+                            return 'Preencha este campo';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: ctrlCat,
+                        textCapitalization: TextCapitalization.sentences,
+                        decoration: InputDecoration(
+                          labelText: 'Categoria',
+                          hintText: 'Ex: Entrada, Principal, Sobremesa',
+                          filled: true,
+                          fillColor: const Color(0xFFFFFAF7),
+                          prefixIcon: Icon(
+                            Icons.category,
+                            color: cores.primary,
+                          ),
+                          border: bordaCampo,
+                        ),
+                        validator: (v) {
+                          if (v == null || v.trim().isEmpty) {
+                            return 'Preencha este campo';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: ctrlIng,
+                        textCapitalization: TextCapitalization.sentences,
+                        decoration: InputDecoration(
+                          labelText: 'Ingrediente principal',
+                          hintText: 'Ex: Arroz arbóreo',
+                          filled: true,
+                          fillColor: const Color(0xFFFFFAF7),
+                          prefixIcon: Icon(
+                            Icons.kitchen,
+                            color: cores.primary,
+                          ),
+                          border: bordaCampo,
+                        ),
+                        validator: (v) {
+                          if (v == null || v.trim().isEmpty) {
+                            return 'Preencha este campo';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 22),
+              // botao largo pra salvar o prato
               SizedBox(
                 width: double.infinity,
+                height: 52,
                 child: ElevatedButton.icon(
                   onPressed: salvar,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: cores.primary,
+                    foregroundColor: cores.onPrimary,
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
                   icon: const Icon(Icons.save),
-                  label: const Text('Salvar'),
+                  label: const Text(
+                    'Salvar',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ],

@@ -4,18 +4,18 @@ Aplicativo feito em Flutter para cadastro de pratos de um restaurante, desenvolv
 
 ## O que o app faz
 
-- **Listagem**: mostra os pratos cadastrados em cards (o app já inicia com um exemplo na lista e exibe uma mensagem quando ela está vazia).
-- **Cadastro**: pelo botão `+`, abre o formulário para adicionar um novo prato com os campos *Prato*, *Categoria* e *Ingrediente principal*.
-- **Edição**: ao tocar em um prato da lista, abre a mesma tela de formulário já preenchida e atualiza o item na mesma posição.
-- **Exclusão**: cada item tem um botão de lixeira que pede confirmação antes de remover o prato da lista.
-- **Validação**: impede salvar se algum campo estiver vazio ou só com espaços, e remove espaços extras no início e no fim do texto ao salvar.
+- **Listagem**: mostra os pratos cadastrados em cards com avatar inicial, categoria em chip e ingrediente principal (o app já inicia com um exemplo na lista e exibe uma tela de estado vazio quando não há pratos).
+- **Cadastro**: pelo botão **Novo prato**, abre o formulário para adicionar um prato com os campos *Prato*, *Categoria* e *Ingrediente principal*.
+- **Edição**: tocando no card ou no botão **Editar**, abre a mesma tela de formulário já preenchida e atualiza o item na mesma posição.
+- **Exclusão**: cada card tem um botão **Excluir** que pede confirmação em um diálogo antes de remover o prato da lista.
+- **Feedback e validação**: impede salvar se algum campo estiver vazio ou só com espaços (removendo espaços extras no início e no fim) e mostra um `SnackBar` curto ao salvar, atualizar ou excluir um prato.
 
 ## Como rodar
 
 1. Instale o [Flutter](https://docs.flutter.dev/get-started/install) na sua máquina.
 2. Clone este repositório e entre na pasta do projeto:
    ```bash
-   git clone <url-do-repositorio>
+   git clone https://github.com/mths-machado/restaurante_app
    cd restaurante_app
    ```
 3. Baixe as dependências:
